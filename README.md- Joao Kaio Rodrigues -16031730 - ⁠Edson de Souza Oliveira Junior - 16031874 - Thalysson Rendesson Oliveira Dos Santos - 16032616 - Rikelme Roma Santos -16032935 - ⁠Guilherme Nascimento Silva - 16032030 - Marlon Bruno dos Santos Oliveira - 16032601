@@ -1,0 +1,6 @@
+- Joao Kaio Rodrigues -16031730
+- ⁠Edson de Souza Oliveira Junior - 16031874
+- Thalysson Rendesson Oliveira Dos Santos - 16032616
+- Rikelme Roma Santos -16032935
+- ⁠Guilherme Nascimento Silva - 16032030
+- Marlon Bruno dos Santos Oliveira - 16032601
