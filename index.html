@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gestão de Atendimentos | UNINASSAU</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav>
+        <div class="logo"><i class="fas fa-rocket"></i> Gestão Empreendedora</div>
+        <div id="user-info"><small>Acesso: 5º Período CC</small></div>
+    </nav>
+
+    <div class="container">
+        <aside class="sidebar">
+            <div class="menu-item active">
+                <i class="fas fa-user-plus"></i> Cadastro
+            </div>
+            <div class="menu-item">
+                <i class="fas fa-clock"></i> Fila de Espera
+            </div>
+            <div class="menu-item">
+                <i class="fas fa-clipboard-list"></i> Atendimento
+            </div>
+            <div class="menu-item">
+                <i class="fas fa-history"></i> Histórico
+            </div>
+            <div class="menu-item">
+                <i class="fas fa-chart-pie"></i> Relatórios
+            </div>
+        </aside>
+
+        <main class="main-card" id="content-area">
+            
+            <section id="sec-cadastro">
+                <h2>Cadastrar Novo Empreendedor</h2>
+                <p class="section-description">Centralize os dados dos clientes para evitar duplicidade em planilhas.</p>
+                
+                <div class="form-group">
+                    <label for="emp-nome">Nome Completo</label>
+                    <input type="text" id="emp-nome" placeholder="Ex: João Silva">
+                </div>
+                <div class="form-group">
+                    <label for="emp-doc">CPF/CNPJ</label>
+                    <input type="text" id="emp-doc" placeholder="000.000.000-00">
+                </div>
+                <button class="btn" id="btn-cadastrar">Confirmar Cadastro</button>
+            </section>
+
+            <section id="sec-fila" class="hidden">
+                <h2>Fila de Espera</h2>
+                <p class="section-description">Gerencie a ordem de chegada dos empreendedores.</p>
+                
+                <div class="form-group">
+                    <label>Colocar na Fila</label>
+                    <div style="display: flex; gap: 10px;">
+                        <select id="select-fila" class="select-modern">
+                            <option value="">Carregando...</option>
+                        </select>
+                        <button class="btn btn-gradient" onclick="adicionarAFila()">
+                            <i class="fas fa-plus"></i> Adicionar
+                        </button>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Posição</th>
+                                <th>Empreendedor</th>
+                                <th>Hora de Chegada</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="lista-fila"></tbody>
+                    </table>
+                </div>
+            </section>
+
+           <section id="sec-atendimento" class="hidden">
+    <h2>Registrar Novo Atendimento</h2>
+    <p class="section-description">Selecione o empreendedor e marque os encaminhamentos realizados.</p>
+    
+    <div class="form-group">
+        <label for="select-empreendedor">Selecionar Empreendedor</label>
+        <select id="select-empreendedor">
+            <option value="">Aguardando cadastros...</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Encaminhamentos Realizados</label>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid var(--border);">
+            <label style="font-weight: 400; display: flex; align-items: center; gap: 8px; margin: 0;">
+                <input type="checkbox" name="encaminhamento" value="Curso/Oficina" style="width: auto;"> Curso / Oficina
+            </label>
+            <label style="font-weight: 400; display: flex; align-items: center; gap: 8px; margin: 0;">
+                <input type="checkbox" name="encaminhamento" value="Consultoria Sebrae" style="width: auto;"> Consultoria Sebrae
+            </label>
+            <label style="font-weight: 400; display: flex; align-items: center; gap: 8px; margin: 0;">
+                <input type="checkbox" name="encaminhamento" value="Formalização MEI" style="width: auto;"> Formalização MEI
+            </label>
+            <label style="font-weight: 400; display: flex; align-items: center; gap: 8px; margin: 0;">
+                <input type="checkbox" name="encaminhamento" value="Mentoria Acadêmica" style="width: auto;"> Mentoria Acadêmica
+            </label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="atend-detalhes">Detalhes da Consultoria</label>
+        <textarea id="atend-detalhes" rows="4" placeholder="Descreva as orientações prestadas..."></textarea>
+    </div>
+    <button class="btn" id="btn-atendimento">Finalizar Atendimento</button>
+</section>
+
+            <section id="sec-historico" class="hidden">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h2>Histórico Consolidado</h2>
+                    <div class="search-box">
+                        <i class="fas fa-search" style="margin-right: 8px; color: var(--text-muted);"></i>
+                        <input type="text" id="input-busca" placeholder="Buscar por nome..." onkeyup="filtrarHistorico()" style="width: 250px; padding: 8px;">
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table id="tabela-historico">
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Empreendedor</th>
+                                <th>Descrição do Serviço</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="lista-historico"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="sec-relatorios" class="hidden">
+                <div class="header-flex">
+                    <div>
+                        <h2>Centro de Inteligência</h2>
+                        <p class="section-description">Analise dados e exporte métricas estratégicas.</p>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card blue">
+                        <div class="icon-circle"><i class="fas fa-users"></i></div>
+                        <p>Total de Empreendedores</p>
+                        <h3 id="count-emp">0</h3>
+                    </div>
+                    <div class="stat-card green">
+                        <div class="icon-circle"><i class="fas fa-check-double"></i></div>
+                        <p>Consultorias Finalizadas</p>
+                        <h3 id="count-atend">0</h3>
+                    </div>
+                </div>
+
+                <div class="export-box">
+                    <h3><i class="fas fa-file-export"></i> Exportar Dados</h3>
+                    <div class="export-controls">
+                        <select id="export-format" class="select-modern">
+                            <option value="csv">Planilha (CSV)</option>
+                            <option value="json">Dados Brutos (JSON)</option>
+                            <option value="txt">Relatório de Texto (TXT)</option>
+                        </select>
+                        <button class="btn btn-gradient" onclick="gerarExportacao()">
+                            <i class="fas fa-download"></i> Baixar Arquivo
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <div id="modal-detalhes" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-info-circle"></i> Detalhes do Registro</h3>
+                <button class="close-modal" onclick="fecharModal()">&times;</button>
+            </div>
+            <div id="modal-body" class="modal-body"></div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
